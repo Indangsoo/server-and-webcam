@@ -1,0 +1,13 @@
+{
+  "name": "iot_term_proj",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client_update.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "dependencies": {
+    "socket.io-client": "^4.8.1"
+  }
+}
