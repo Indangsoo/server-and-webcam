@@ -1,3 +1,6 @@
+from gevent import monkey
+monkey.patch_all()
+
 from flask import Flask, request, Response
 from flask_cors import CORS
 from flask_socketio import SocketIO
@@ -37,5 +40,5 @@ def car_danger_data():
 # route 추가
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True, allow_unsafe_werkzeug=True)
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
 
