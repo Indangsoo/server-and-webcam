@@ -20,11 +20,19 @@ class ClientUpdate {
         this.listeners.set(id, callback);
 
         // 초기 데이터 전달
-        this.fetchData(query).then((data) => callback(data));
+        this.fetchData(query).then((data) => {
+            const validJsonString = data.replace(/'/g, '"');
+            const dict = JSON.parse(validJsonString);
+
+            callback(dict)
+        });
 
         // 실시간 업데이트 수신
         this.socket.on(query, (data) => {
-            this.listeners.forEach((listener) => listener(data));
+            const validJsonString = data.replace(/'/g, '"');
+            const dict = JSON.parse(validJsonString);
+
+            this.listeners.forEach((listener) => listener(dict));
         });
 
         // 구독 해지 함수를 반환
