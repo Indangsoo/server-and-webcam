@@ -5,6 +5,7 @@ from flask import Flask, request, Response
 from flask_cors import CORS
 from flask_socketio import SocketIO
 from db import Database
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -24,7 +25,7 @@ def car_danger():
     response = db.insert_car_danger(timestamp)  # DB 삽입
 
     if response.get("success"):  # DB에 정상적으로 삽입된 경우
-        socketio.emit("/car/danger", str({"key": timestamp}))  # 웹소켓으로 정보 보냄
+        socketio.emit("/car/danger", json.dumps({"key": timestamp}))  # 웹소켓으로 정보 보냄
 
         return Response(status=200)  # ok
     else:
@@ -51,7 +52,7 @@ def car_open():
     response = db.insert_car_open(timestamp)  # DB 삽입
 
     if response.get("success"):  # DB에 정상적으로 삽입된 경우
-        socketio.emit("/car/open", str({"key": timestamp}))  # 웹소켓으로 정보 보냄
+        socketio.emit("/car/open", json.dumps({"key": timestamp}))  # 웹소켓으로 정보 보냄
 
         return Response(status=200)  # ok
     else:
@@ -78,7 +79,7 @@ def indoor_danger():
     response = db.insert_indoor_danger(timestamp)  # DB 삽입
 
     if response.get("success"):  # DB에 정상적으로 삽입된 경우
-        socketio.emit("/indoor/danger", str({"key": timestamp}))  # 웹소켓으로 정보 보냄
+        socketio.emit("/indoor/danger", json.dumps({"key": timestamp}))  # 웹소켓으로 정보 보냄
 
         return Response(status=200)  # ok
     else:
@@ -100,7 +101,7 @@ def toilet_towel():
     response = db.insert_toilet_towel(num)  # DB 삽입
 
     if response.get("success"):  # DB에 정상적으로 삽입된 경우
-        socketio.emit("/toilet/towel", str({"num": num}))  # 웹소켓으로 정보 보냄
+        socketio.emit("/toilet/towel", json.dumps({"num": num}))  # 웹소켓으로 정보 보냄
 
         return Response(status=200)  # ok
     else:
@@ -128,7 +129,7 @@ def stuff_call():
     response = db.insert_stuff_call(name, timestamp)  # DB 삽입
 
     if response.get("success"):  # DB에 정상적으로 삽입된 경우
-        socketio.emit("/stuff/call", str({"name": name, "key": timestamp}))  # 웹소켓으로 정보 보냄
+        socketio.emit("/stuff/call", json.dumps({"name": name, "key": timestamp}))  # 웹소켓으로 정보 보냄
 
         return Response(status=200)  # ok
     else:

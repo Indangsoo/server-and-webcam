@@ -84,7 +84,7 @@ class Database:
                 if row:
                     data = dict(row)
 
-                return ResponseModel(True, str(data)).dict()  # 딕셔너리 형태로 응답
+                return ResponseModel(True, json.dumps(data)).dict()  # json 형태로 응답
         except sqlite3.OperationalError as e:  # 오류 발생한 경우
             return ResponseModel(False, str(e)).dict()
 

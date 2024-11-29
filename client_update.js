@@ -21,16 +21,14 @@ class ClientUpdate {
 
         // 초기 데이터 전달
         this.fetchData(query).then((data) => {
-            const validJsonString = data.replace(/'/g, '"');
-            const dict = JSON.parse(validJsonString);
+            const dict = JSON.parse(data);
 
             callback(dict)
         });
 
         // 실시간 업데이트 수신
         this.socket.on(query, (data) => {
-            const validJsonString = data.replace(/'/g, '"');
-            const dict = JSON.parse(validJsonString);
+            const dict = JSON.parse(data);
 
             this.listeners.forEach((listener) => listener(dict));
         });
