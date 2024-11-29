@@ -143,6 +143,15 @@ def stuff_call_data():
     else:
         return Response(response.get("data"),status=400)  # Bad
 
+@app.route('/getevents', methods=["GET"])
+def getevents():
+    response = db.get_events()  # data get
+
+    if response.get("success"):  # DB에 정상적으로 삽입된 경우
+        return Response(response.get("data"), status=200)  # ok
+    else:
+        return Response(response.get("data"),status=400)  # Bad
+
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)
 

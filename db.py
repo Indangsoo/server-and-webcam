@@ -1,5 +1,6 @@
 import sqlite3
 import time
+import json
 
 from db_response_model import ResponseModel
 
@@ -116,3 +117,47 @@ class Database:
 
     def get_stuff_call(self):
         return self.get_data("stuff_call", ["name", "key"], "key")
+
+    def get_events(self):
+        try:  # 예외처리
+            with sqlite3.connect(self.db_file) as conn:  # with문으로 conn 사용후 닫음
+                conn.row_factory = sqlite3.Row
+
+                cursor = conn.cursor()
+
+                # 모든 데이터 union 후 내림차순 정렬
+                query = '''
+                SELECT
+                    event.key AS time,
+                    CASE 
+                        WHEN event.type = 'danger' AND event.place = 'car' THEN 'car_danger'
+                        WHEN event.type = 'open' AND event.place = 'car' THEN 'car_open'
+                        WHEN event.type = 'danger' AND event.place = 'indoor' THEN 'indoor_danger'
+                    END AS event_type,
+                    NULL AS data
+                FROM event
+                UNION ALL
+                SELECT
+                    towel.time AS time,
+                    'towel_change' AS event_type,
+                    towel.num AS data
+                FROM towel    
+                UNION ALL 
+                SELECT
+                    stuff_call.key AS time,
+                    'stuff_call' AS event_type,
+                    stuff_call.name AS data
+                FROM stuff_call
+                ORDER BY time DESC
+                '''
+
+                cursor.execute(query)  # 실행
+
+                row = cursor.fetchall()  # 최근 데이터 전체
+
+                if row:
+                    data = list(map(lambda x: dict(x), row))  # 리스트 내 데이터 딕셔너리 형태로 변경
+
+                return ResponseModel(True, json.dumps(data)).dict()  # json 형태로 응답
+        except sqlite3.OperationalError as e:  # 오류 발생한 경우
+            return ResponseModel(False, str(e)).dict()
