@@ -37,7 +37,7 @@ def car_danger_data():
     if response.get("success"):  # DB에 정상적으로 삽입된 경우
         return Response(response.get("data") ,status=200)  # ok
     else:
-        return Response(status=400)  # Bad
+        return Response(response.get("data"),status=400)  # Bad
 
 @app.route('/car/open', methods=["GET"])
 def car_open():
@@ -64,7 +64,7 @@ def car_open_data():
     if response.get("success"):  # DB에 정상적으로 삽입된 경우
         return Response(response.get("data") ,status=200)  # ok
     else:
-        return Response(status=400)  # Bad
+        return Response(response.get("data"),status=400)  # Bad
 
 @app.route('/indoor/danger', methods=["GET"])
 def indoor_danger():
@@ -91,7 +91,7 @@ def indoor_danger_data():
     if response.get("success"):  # DB에 정상적으로 삽입된 경우
         return Response(response.get("data"), status=200)  # ok
     else:
-        return Response(status=400)  # Bad
+        return Response(response.get("data"),status=400)  # Bad
 
 @app.route('/toilet/towel', methods=["GET"])
 def toilet_towel():
@@ -113,7 +113,7 @@ def toilet_towel_data():
     if response.get("success"):  # DB에 정상적으로 삽입된 경우
         return Response(response.get("data"), status=200)  # ok
     else:
-        return Response(status=400)  # Bad
+        return Response(response.get("data"),status=400)  # Bad
 
 @app.route('/stuff/call', methods=["GET"])
 def stuff_call():
@@ -141,7 +141,7 @@ def stuff_call_data():
     if response.get("success"):  # DB에 정상적으로 삽입된 경우
         return Response(response.get("data"), status=200)  # ok
     else:
-        return Response(status=400)  # Bad
+        return Response(response.get("data"),status=400)  # Bad
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, host='0.0.0.0', port=5000)
