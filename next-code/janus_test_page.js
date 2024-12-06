@@ -22,7 +22,7 @@ export default function Home() {
       dependencies: Janus.useDefaultDependencies({ adapter: adapter }),
       callback: () => {
         const janus = new Janus({
-          server: 'http://192.168.2.5:8088/janus', // Janus server address
+          server: 'http://59.187.251.226:34549/janus',
           success: () => {
             janus.attach({
               plugin: 'janus.plugin.streaming',
